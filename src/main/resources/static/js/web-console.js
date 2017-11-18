@@ -3,6 +3,7 @@ var stompClient = null;
 function connect() {
     var socket = new SockJS('/logs');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null;
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/logs', function (messageOutput) {
             // The initial message is a list of messages
