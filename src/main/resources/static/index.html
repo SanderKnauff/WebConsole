@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>Web Console</title>
+    <script src="js/sock.js"></script>
+    <script src="js/stomp.js"></script>
+    <script src="js/web-console.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+</head>
+
+<body onload="connect()">
+    <section id="control">
+        <button onclick="startServer()">Start</button>
+        <button onclick="stopServer()">Stop</button>
+        <button onclick="restartServer()">Restart</button>
+    </section>
+    <section id="logOuput">
+
+    </section>
+    <section id="command">
+        <input id="commandInput" onkeydown="onCommandInputEnter(event)">
+        <button onclick="sendCommand()">Submit</button>
+    </section>
+
+</body>
+</html>
