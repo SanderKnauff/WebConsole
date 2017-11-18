@@ -25,11 +25,9 @@ function disconnect() {
 }
 
 function appendLog(messageOutput) {
-    console.log(messageOutput);
     var logOutput = document.getElementById('logOuput');
 
     var isScrolledToBottom = logOutput.scrollHeight - logOutput.clientHeight <= logOutput.scrollTop + 1;
-    console.log("Top: " + logOutput.scrollTop + "; scrollHeight: " + logOutput.scrollHeight);
 
     //Prepare the new log line element
     var span = document.createElement('span');
