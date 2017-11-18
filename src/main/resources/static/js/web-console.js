@@ -1,4 +1,5 @@
 var stompClient = null;
+stompClient.debug = null;
 
 function connect() {
     var socket = new SockJS('/logs');
