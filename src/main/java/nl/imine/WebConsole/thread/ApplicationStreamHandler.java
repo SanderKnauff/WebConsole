@@ -34,10 +34,12 @@ public class ApplicationStreamHandler extends Thread {
                 String stdErrString = stdErr.readLine();
 
                 if (stdOutString != null) {
+                    logger.info("{}", stdOutString);
                     logMessageService.sendToLogSocket(new LogLine(stdOutString, LogType.OUT));
                 }
 
                 if (stdErrString != null) {
+                    logger.info("{}", stdErrString);
                     logMessageService.sendToLogSocket(new LogLine(stdErrString, LogType.ERR));
                 }
             }

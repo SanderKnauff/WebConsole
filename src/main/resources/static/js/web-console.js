@@ -1,20 +1,12 @@
 var stompClient = null;
-stompClient.debug = null;
 
 function connect() {
     var socket = new SockJS('/logs');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/logs', function (messageOutput) {
-            var message = JSON.parse(messageOutput.body);
             // The initial message is a list of messages
-            if(isArray(message)) {
-                for(var i = 0; i < message.length; i++) {
-                    appendLog(message[i]);
-                }
-            } else {
-                appendLog(message);
-            }
+            appendLog(JSON.parse(messageOutput.body));
         });
     });
 }
@@ -27,18 +19,21 @@ function disconnect() {
 
 function appendLog(messageOutput) {
     var logOutput = document.getElementById('logOuput');
-
     var isScrolledToBottom = logOutput.scrollHeight - logOutput.clientHeight <= logOutput.scrollTop + 1;
 
-    //Prepare the new log line element
-    var span = document.createElement('span');
-    span.appendChild(document.createTextNode(messageOutput.line));
-    span.classList.add('line');
-    span.classList.add(messageOutput.logType);
-
-    //Append new log lines
-    logOutput.appendChild(span);
-    logOutput.appendChild(document.createElement('br'));
+    if (isArray(messageOutput)) {
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < messageOutput.length; i++) {
+            var line = createMessageLine(messageOutput[i]);
+            fragment.appendChild(line);
+            fragment.appendChild(document.createElement('br'));
+        }
+        logOutput.appendChild(fragment);
+    } else {
+        var span = createMessageLine(messageOutput);
+        logOutput.appendChild(span);
+        logOutput.appendChild(document.createElement('br'));
+    }
 
     //Optionally scroll lines
     if (isScrolledToBottom) {
@@ -46,6 +41,14 @@ function appendLog(messageOutput) {
     } else {
         //Notify that there are new messages
     }
+}
+
+function createMessageLine(message) {
+    var span = document.createElement('span');
+    span.appendChild(document.createTextNode(message.line));
+    span.classList.add('line');
+    span.classList.add(message.logType);
+    return span;
 }
 
 function startServer() {
@@ -69,7 +72,7 @@ function restartServer() {
 
 function sendCommand() {
     var inputField = document.getElementById('commandInput');
-    if(inputField.value) {
+    if (inputField.value) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("POST", "/application/sendCommand", true);
         xmlHttp.send(inputField.value);
@@ -83,6 +86,6 @@ function onCommandInputEnter(event) {
     }
 }
 
-function isArray(obj){
+function isArray(obj) {
     return !!obj && obj.constructor === Array;
 }
