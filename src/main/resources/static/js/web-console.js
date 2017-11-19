@@ -20,7 +20,8 @@ function disconnect() {
 
 function appendLog(messageOutput) {
     var logOutput = document.getElementById('logOuput');
-    var isScrolledToBottom = logOutput.scrollHeight - logOutput.clientHeight <= logOutput.scrollTop + 1;
+    var console = document.getElementById('console');
+    var isScrolledToBottom = console.scrollHeight - console.clientHeight <= console.scrollTop + 1;
 
     if (isArray(messageOutput)) {
         var fragment = document.createDocumentFragment();
@@ -38,7 +39,7 @@ function appendLog(messageOutput) {
 
     //Optionally scroll lines
     if (isScrolledToBottom) {
-        logOutput.scrollTop = logOutput.scrollHeight;
+        console.scrollTop = console.scrollHeight;
     } else {
         //Notify that there are new messages
     }
