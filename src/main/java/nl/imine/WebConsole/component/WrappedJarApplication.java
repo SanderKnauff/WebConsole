@@ -21,6 +21,7 @@ public class WrappedJarApplication implements ApplicationAliveMonitor.Applicatio
 
     private final LogMessageService logMessageService;
     private final String commandString;
+    private final String debugCommandString;
     private final String workingDir;
 
     private Process process;
@@ -29,22 +30,29 @@ public class WrappedJarApplication implements ApplicationAliveMonitor.Applicatio
 
     public WrappedJarApplication(LogMessageService logMessageService,
                                  @Value("${application.command}") String commandString,
+                                 @Value("${application.command.debug}") String debugCommandString,
                                  @Value("${application.workingdir}") String workingDir) {
         this.logMessageService = logMessageService;
         this.commandString = commandString;
+        this.debugCommandString = debugCommandString;
         this.workingDir = workingDir;
     }
 
     @PostConstruct
     public void onPostConstruct() {
-        startApplication();
+        startApplication(false);
     }
 
-    public void startApplication() {
+    public void startApplication(boolean debug) {
         if(!isServerActive()) {
-            logMessageService.sendToLogSocket(new LogLine("Starting application", LogType.SYS));
+            if(debug) {
+                logMessageService.sendToLogSocket(new LogLine("Starting application in debug mode", LogType.ERR));
+            } else {
+                logMessageService.sendToLogSocket(new LogLine("Starting application", LogType.SYS));
+            }
             shouldRestart = true;
-            ProcessBuilder processBuilder = new ProcessBuilder(commandString.split("\\s"));
+            String startCommand = debug ? debugCommandString : commandString;
+            ProcessBuilder processBuilder = new ProcessBuilder(startCommand.split("\\s"));
             processBuilder.directory(new File(workingDir));
             try {
                 processBuilder.redirectErrorStream(true);
@@ -87,7 +95,7 @@ public class WrappedJarApplication implements ApplicationAliveMonitor.Applicatio
         logMessageService.sendToLogSocket(new LogLine("Application has terminated", LogType.SYS));
         applicationStreamHandler.close();
         if(shouldRestart) {
-            startApplication();
+            startApplication(false);
         }
     }
 

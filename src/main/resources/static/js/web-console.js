@@ -62,7 +62,7 @@ function createMessageLine(message) {
 
 function startServer() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/application/start", true);
+    xmlHttp.open("GET", "/application/start?debug=" + event.shiftKey, true);
     xmlHttp.send(null);
 }
 
@@ -101,4 +101,20 @@ function isArray(obj) {
 
 function focusCommandInput() {
     document.getElementById("commandInput").focus();
+}
+
+document.addEventListener("keydown", isShiftHeld, true);
+document.addEventListener("keyup", isShiftHeld, true);
+
+function isShiftHeld(event) {
+    var altButtons = document.getElementsByClassName("altButton");
+    for(var index = 0; index < altButtons.length; index++) {
+        var altButton = altButtons[index];
+        if(event.shiftKey) {
+            altButton.classList.add("altButtonActive");
+        } else {
+            altButton.classList.remove("altButtonActive");
+        }
+
+    }
 }

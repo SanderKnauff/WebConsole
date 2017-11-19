@@ -14,8 +14,8 @@ public class WrappedApplicationController {
     }
 
     @GetMapping("/start")
-    public void startApplication() {
-        wrappedJarApplication.startApplication();
+    public void startApplication(@RequestParam(name="debug", defaultValue = "false", required = false) boolean debug) {
+        wrappedJarApplication.startApplication(debug);
     }
 
     @GetMapping("/stop")
