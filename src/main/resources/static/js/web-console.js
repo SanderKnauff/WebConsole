@@ -44,6 +44,13 @@ function appendLog(messageOutput) {
     }
 }
 
+function clearLog() {
+    var logOutput = document.getElementById('logOuput');
+    while (logOutput.firstChild) {
+        logOutput.removeChild(logOutput.firstChild);
+    }
+}
+
 function createMessageLine(message) {
     var span = document.createElement('span');
     span.appendChild(document.createTextNode(message.line));

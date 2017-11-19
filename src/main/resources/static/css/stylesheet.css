@@ -20,6 +20,10 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.endButton {
+    margin-top: auto;
+}
+
 /* Console layout */
 #console {
     flex: 99;
