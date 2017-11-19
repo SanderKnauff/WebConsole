@@ -90,3 +90,7 @@ function onCommandInputEnter(event) {
 function isArray(obj) {
     return !!obj && obj.constructor === Array;
 }
+
+function focusCommandInput() {
+    document.getElementById("commandInput").focus();
+}

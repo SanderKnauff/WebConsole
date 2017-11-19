@@ -9,17 +9,19 @@
 
 <body onload="connect()">
     <section id="control">
-        <button onclick="startServer()">Start</button>
-        <button onclick="stopServer()">Stop</button>
-        <button onclick="restartServer()">Restart</button>
+        <img class="controlButton" src="img/icon_start.svg" onclick="startServer()" />
+        <img class="controlButton" src="img/icon_stop.svg" onclick="stopServer()" />
+        <img class="controlButton" src="img/icon_restart.svg" onclick="restartServer()" />
     </section>
-    <section id="logOuput">
-
+    <section id="console" onclick="focusCommandInput()">
+        <div id="scrollPrevention">
+            <section id="logOuput">
+            </section>
+            <div id="command">
+                <span>&gt;&nbsp;</span>
+                <input id="commandInput" autocomplete="off" onkeydown="onCommandInputEnter(event)">
+            </div>
+        </div>
     </section>
-    <section id="command">
-        <input id="commandInput" onkeydown="onCommandInputEnter(event)">
-        <button onclick="sendCommand()">Submit</button>
-    </section>
-
 </body>
 </html>
