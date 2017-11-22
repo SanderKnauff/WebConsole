@@ -20,7 +20,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.controlButton:hover .altButtonActive {
+.controlButton:hover.altButtonActive {
     background: rgba(255, 0, 0, 0.1);
 }
 
@@ -80,6 +80,6 @@ body {
     color: rgb(250, 0, 0);
 }
 
-.line.SYS{
+.line.SYS {
     color: rgb(0, 250, 0);
 }
