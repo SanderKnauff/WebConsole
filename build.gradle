@@ -15,7 +15,6 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 group = 'nl.imine'
@@ -31,6 +30,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework:spring-websocket')
 	compile('org.springframework:spring-messaging')
+	compile('javax.servlet:jstl')
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile('org.eclipse.jdt.core.compiler:ecj')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 //	testCompile('org.springframework.security:spring-security-test')
 }

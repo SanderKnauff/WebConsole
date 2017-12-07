@@ -1,11 +1,11 @@
 var stompClient = null;
 
 function connect() {
-    var socket = new SockJS('/logs');
+    var socket = new SockJS('/sockets');
     stompClient = Stomp.over(socket);
     stompClient.debug = null;
     stompClient.connect({}, function (frame) {
-        stompClient.subscribe('/logs', function (messageOutput) {
+        stompClient.subscribe('/logs/' + environment, function (messageOutput) {
             // The initial message is a list of messages
             appendLog(JSON.parse(messageOutput.body));
         });
@@ -62,19 +62,19 @@ function createMessageLine(message) {
 
 function startServer() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/application/start?debug=" + event.shiftKey, true);
+    xmlHttp.open("GET", "/application/" + environment + "/start?debug=" + event.shiftKey, true);
     xmlHttp.send(null);
 }
 
 function stopServer() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/application/stop", true);
+    xmlHttp.open("GET", "/application/" + environment + "/stop", true);
     xmlHttp.send(null);
 }
 
 function restartServer() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/application/restart", true);
+    xmlHttp.open("GET", "/application/" + environment + "/restart", true);
     xmlHttp.send(null);
     xmlHttp.close();
 }
@@ -83,7 +83,7 @@ function sendCommand() {
     var inputField = document.getElementById('commandInput');
     if (inputField.value) {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", "/application/sendCommand", true);
+        xmlHttp.open("POST", "/application/" + environment + "/sendCommand", true);
         xmlHttp.send(inputField.value);
         inputField.value = "";
     }

@@ -2,7 +2,8 @@ package nl.imine.WebConsole.thread;
 
 import nl.imine.WebConsole.model.LogLine;
 import nl.imine.WebConsole.model.LogType;
-import nl.imine.WebConsole.service.LogMessageService;
+import nl.imine.WebConsole.model.WrappedApplication;
+import nl.imine.WebConsole.controller.LogMessageController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,15 +13,17 @@ public class ApplicationStreamHandler extends Thread {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationStreamHandler.class);
 
-    private final LogMessageService logMessageService;
+    private final LogMessageController logMessageController;
+    private final WrappedApplication wrappedApplication;
     private final BufferedReader stdOut;
     private final BufferedReader stdErr;
     private final BufferedWriter stdIn;
 
     private boolean running = true;
 
-    public ApplicationStreamHandler(LogMessageService logMessageService, InputStream stdOut, InputStream stdErr, OutputStream stdIn) {
-        this.logMessageService = logMessageService;
+    public ApplicationStreamHandler(LogMessageController logMessageController, WrappedApplication wrappedApplication, InputStream stdOut, InputStream stdErr, OutputStream stdIn) {
+        this.logMessageController = logMessageController;
+        this.wrappedApplication = wrappedApplication;
         this.stdOut = new BufferedReader(new InputStreamReader(stdOut));
         this.stdErr = new BufferedReader(new InputStreamReader(stdErr));
         this.stdIn = new BufferedWriter(new OutputStreamWriter(stdIn));
@@ -35,12 +38,12 @@ public class ApplicationStreamHandler extends Thread {
 
                 if (stdOutString != null) {
                     logger.info("{}", stdOutString);
-                    logMessageService.sendToLogSocket(new LogLine(stdOutString, LogType.OUT));
+                    logMessageController.sendToLogSocket(wrappedApplication, new LogLine(stdOutString, LogType.OUT));
                 }
 
                 if (stdErrString != null) {
                     logger.info("{}", stdErrString);
-                    logMessageService.sendToLogSocket(new LogLine(stdErrString, LogType.ERR));
+                    logMessageController.sendToLogSocket(wrappedApplication, new LogLine(stdErrString, LogType.ERR));
                 }
             }
         } catch (IOException e) {

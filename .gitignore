@@ -24,3 +24,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+#Project Specific files
+icons/
+applications.json
