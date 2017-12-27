@@ -6,7 +6,9 @@
     <script>var applications = ${applications}</script>
     <script src="<c:url value="/js/applications-list.js"/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/application-list.css"/>">
-    <title>Applications</title>
+    <title>WebConsole | Applications</title>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body onload="onLoad()">
 <nav></nav>

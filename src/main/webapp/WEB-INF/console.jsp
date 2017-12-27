@@ -8,6 +8,8 @@
     <script src="<c:url value="/js/web-console.js"/>"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/console.css"/>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 
 <body onload="connect()">

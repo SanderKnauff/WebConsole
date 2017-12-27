@@ -29,7 +29,7 @@ public class LimitedSizeQueue<T> extends LinkedList<T> {
         return r;
     }
 
-    public T getYongest() {
+    public T getYoungest() {
         return get(size() - 1);
     }
 

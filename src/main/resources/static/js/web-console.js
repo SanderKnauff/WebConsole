@@ -2,9 +2,13 @@ var stompClient = null;
 
 function connect() {
     var socket = new SockJS('/sockets');
+
+    var headers = {};
+    headers[document.querySelector("meta[name='_csrf_header'").getAttribute("content")] = document.querySelector("meta[name='_csrf'").getAttribute("content");
+
     stompClient = Stomp.over(socket);
     stompClient.debug = null;
-    stompClient.connect({}, function (frame) {
+    stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/logs/' + environment, function (messageOutput) {
             // The initial message is a list of messages
             appendLog(JSON.parse(messageOutput.body));

@@ -28,11 +28,13 @@ repositories {
 dependencies {
 //	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework:spring-websocket')
-	compile('org.springframework:spring-messaging')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-websocket')
+	compile('org.springframework.security:spring-security-messaging:"4.0.1.RELEASE')
 	compile('javax.servlet:jstl')
+    compile('mysql:mysql-connector-java')
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-	compile('org.eclipse.jdt.core.compiler:ecj')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 //	testCompile('org.springframework.security:spring-security-test')
 }
