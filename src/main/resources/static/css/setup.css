@@ -18,6 +18,22 @@ html, body {
 
 .inputContainer {
     display: flex;
+    flex-direction: column;
+}
+
+.inputError {
+    display: none;
+    margin-left: 1em;
+    margin-right: 1em;
+
+    background-color: rgba(255, 0, 0, 0.4);
+
+    font-family: "Segoe UI", sans-serif;
+    color: rgb(250, 250, 250);
+    font-size: 1em;
+
+    border: 0.1em solid rgba(255, 0, 0, 0.5);
+    text-align: center;
 }
 
 .inputImage {
@@ -36,6 +52,10 @@ html, body {
     color: rgb(0, 250, 0);
     font-family: "Lucida Console", Monaco, monospace;
     font-size: 1.5em;
+}
+
+.input.hasError {
+    border: red solid 1px;
 }
 
 #createButton {

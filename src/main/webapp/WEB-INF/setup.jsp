@@ -15,15 +15,18 @@
 <form id="setup" action="<c:url value="/setup"/>" method="post" name="UserDetails">
     <div class="inputContainer">
         <img class="inputImage" src="<c:url value="/img/icon_user_transparant.svg"/>"/>
-        <input class="input" name="username" />
+        <input id="usernameInput" class="input" name="username"/>
+        <span id="usernameEmptyError" class="inputError">Username can not be empty</span>
     </div>
     <div class="inputContainer">
         <img class="inputImage" src="<c:url value="/img/icon_password_transparant.svg"/>"/>
-        <input class="input" name="password" type="password"/>
+        <input id="passwordInput" class="input" name="password" type="password"/>
+        <span id="passwordEmptyError" class="inputError">Password can not be empty</span>
     </div>
     <div class="inputContainer">
         <img class="inputImage" src="<c:url value="/img/icon_password_transparant.svg"/>"/>
-        <input class="input" name="newPassword" type="password"/>
+        <input id="passwordConfirmInput" class="input" name="newPassword" type="password"/>
+        <span id="passwordNotEqualError" class="inputError">Passwords do no match</span>
     </div>
     <input type="hidden"
            name="${_csrf.parameterName}"
