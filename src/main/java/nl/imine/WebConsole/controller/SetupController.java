@@ -56,7 +56,7 @@ public class SetupController {
                 return new ModelAndView("setup", "errors", bindingResult.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.toList()));
             }
 
-            applicationUser.setRoles(Collections.singleton(ApplicationUserRole.ROLE_ADMIN));
+            applicationUser.setRoles(Collections.singleton(ApplicationUserRole.ADMIN));
 
             //Recreate object as down-casted type so JPA can handle it. Also removes passwordConfirm object
             applicationUserService.save(new ApplicationUser(applicationUser.getUsername(), applicationUser.getPassword(), applicationUser.getRoles()));

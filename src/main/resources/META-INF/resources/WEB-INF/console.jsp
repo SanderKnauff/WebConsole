@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfToken"--%>
+<%--@elvariable id="environment" type="java.lang.String"--%>
 <html>
 <head>
     <title>Web Console</title>

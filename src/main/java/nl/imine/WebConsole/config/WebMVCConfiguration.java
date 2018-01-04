@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 @Configuration
 public class WebMVCConfiguration extends WebMvcConfigurerAdapter {
@@ -17,7 +16,7 @@ public class WebMVCConfiguration extends WebMvcConfigurerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(WebMVCConfiguration.class);
 
     @Bean
-    public ViewResolver viewResolver() throws Exception {
+    public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/");
         viewResolver.setSuffix(".jsp");
