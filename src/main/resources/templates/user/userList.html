@@ -1,0 +1,22 @@
+<!--/*@thymesVar id="user" type="nl.imine.WebConsole.model.ApplicationUser"*/-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">var users = /*<![CDATA[*/[[${users}]]/*]]>*/</script>
+    <link rel="stylesheet" type="text/css" href="/css/setup.css">
+    <script src="/js/newuser.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebConsole | Users</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<section id="users">
+    <div th:each="user : ${users}" class="userEntry">
+        <span th:text="${user.username}"></span>
+        <span th:text="${user.roles}"></span>
+    </div>
+</section>
+</body>
+</html>

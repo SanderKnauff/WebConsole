@@ -88,6 +88,7 @@ function sendCommand() {
     if (inputField.value) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("POST", "/application/" + environment + "/sendCommand", true);
+        xmlHttp.setRequestHeader(document.head.querySelector("[name=_csrf_header]").content, document.head.querySelector("[name=_csrf]").content);
         xmlHttp.send(inputField.value);
         inputField.value = "";
     }
