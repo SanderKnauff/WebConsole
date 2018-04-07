@@ -99,6 +99,7 @@ body {
 .line {
     font-family: "Lucida Console", Monaco, monospace;
     font-size: small;
+    white-space: pre;
 }
 
 .line.OUT {
