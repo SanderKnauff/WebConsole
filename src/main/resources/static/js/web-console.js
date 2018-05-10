@@ -32,7 +32,6 @@ function appendLog(messageOutput) {
         for (var i = 0; i < messageOutput.length; i++) {
             var line = createMessageLine(messageOutput[i]);
             fragment.appendChild(line);
-            fragment.appendChild(document.createElement('br'));
         }
         logOutput.appendChild(fragment);
     } else {
@@ -57,7 +56,7 @@ function clearLog() {
 }
 
 function createMessageLine(message) {
-    var span = document.createElement('span');
+    var span = document.createElement('div');
     span.appendChild(document.createTextNode(message.line));
     span.classList.add('line');
     span.classList.add(message.logType);

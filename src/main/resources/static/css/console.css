@@ -68,8 +68,11 @@ body {
 }
 
 #logOuput {
+    display: flex;
+    flex-direction: column;
     padding-top: 0.5em;
     padding-left: 0.5em;
+    line-height: 1;
 }
 
 #command {
