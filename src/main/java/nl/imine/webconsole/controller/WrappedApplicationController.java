@@ -51,6 +51,14 @@ public class WrappedApplicationController {
     }
 
     @ResponseBody
+    @GetMapping("/kill")
+    public void stopApplication(@PathVariable String id, @RequestParam(name = "force", defaultValue = "false", required = false) boolean force) {
+        applicationProcessService.getApplicationProcess(id).ifPresent(applicationProcess -> {
+            applicationProcessService.killApplication(applicationProcess, force);
+        });
+    }
+
+    @ResponseBody
     @GetMapping("/restart")
     public void restartApplication(@PathVariable String id) {
         applicationProcessService.getApplicationProcess(id).ifPresent(applicationProcess -> {

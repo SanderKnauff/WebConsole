@@ -37,7 +37,7 @@ public class LogMessageController {
     public void onApplicationSubscribe(@DestinationVariable String serverId) {
         logger.info("Client subscribed to /{}", serverId);
         if (historyBuffers.containsKey(serverId)) {
-            template.convertAndSend("/logs/" + serverId, historyBuffers.get(serverId)); //TODO Send History buffers. Find out which channel was subscribed to
+            template.convertAndSend("/logs/" + serverId, historyBuffers.get(serverId));
         }
     }
 

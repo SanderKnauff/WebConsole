@@ -71,7 +71,11 @@ function startServer() {
 
 function stopServer() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/application/" + environment + "/stop", true);
+    if(!event.shiftKey) {
+        xmlHttp.open("GET", "/application/" + environment + "/stop", true);
+    } else {
+        xmlHttp.open("GET", "/application/" + environment + "/kill");
+    }
     xmlHttp.send(null);
 }
 

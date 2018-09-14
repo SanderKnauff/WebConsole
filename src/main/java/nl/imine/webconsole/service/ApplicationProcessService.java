@@ -58,6 +58,16 @@ public class ApplicationProcessService implements ApplicationAliveMonitor.Applic
         }
     }
 
+    public void killApplication(ApplicationProcess applicationProcess, boolean force) {
+        applicationProcess.setShouldRestart(false);
+        logMessageController.sendToLogSocket(applicationProcess.getWrappedApplication(), new LogLine("Killing application", LogType.ERR));
+        if (force) {
+            applicationProcess.getProcess().ifPresent(Process::destroyForcibly);
+        } else {
+            applicationProcess.getProcess().ifPresent(Process::destroy);
+        }
+    }
+
     public void stopApplication(ApplicationProcess applicationProcess, boolean restart) {
         applicationProcess.setShouldRestart(restart);
         if (isApplicationAlive(applicationProcess)) {
@@ -100,7 +110,7 @@ public class ApplicationProcessService implements ApplicationAliveMonitor.Applic
 
     public ApplicationProcess getOrCreateApplicationProcess(WrappedApplication application) {
         Optional<ApplicationProcess> process = getApplicationProcess(application.getId());
-        if(process.isPresent()) {
+        if (process.isPresent()) {
             return process.get();
         } else {
             ApplicationProcess applicationProcess = new ApplicationProcess(application);
