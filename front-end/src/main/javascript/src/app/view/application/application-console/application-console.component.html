@@ -1,1 +1,1 @@
-<span *ngFor="let message of messages" ngClass="message.logType" [innerHtml]="message.getFormattedLine() | keepHtml"></span>
+<span *ngFor="let message of messages" ngClass="{{message.getLogTypeName()}}" [innerHtml]="message.getFormattedLine() | keepHtml"></span>

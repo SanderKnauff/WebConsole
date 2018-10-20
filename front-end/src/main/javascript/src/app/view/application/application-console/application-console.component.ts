@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {LogLine} from "../../../model/log-line";
 
 

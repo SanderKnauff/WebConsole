@@ -3,6 +3,9 @@
   flex-direction: column;
   overflow-y: scroll;
 
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+
   @media only screen and (orientation: landscape) {
     width: 100%;
   }
@@ -16,15 +19,15 @@ span {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: small;
 
-  .OUT {
+  &.OUT {
     color: rgb(250, 250, 250);
   }
 
-  .ERR {
+  &.ERR {
     color: rgb(250, 0, 0);
   }
 
-  .SYS {
+  &.SYS {
     color: rgb(0, 250, 0);
   }
 }

@@ -11,4 +11,8 @@ export class LogLine {
     let converter = new Filter();
     return converter.toHtml(this.line);
   }
+
+  public getLogTypeName(): string {
+    return LogType[this.logType];
+  }
 }

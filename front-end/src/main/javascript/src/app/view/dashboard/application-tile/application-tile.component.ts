@@ -14,17 +14,18 @@ export class ApplicationTileComponent implements OnInit {
 
   @Input() private application: Application;
 
-  constructor(private router: Router, private elRef:ElementRef, private renderer:Renderer2) { }
+  constructor(private router: Router, private elRef: ElementRef, private renderer: Renderer2) {
+  }
 
   ngOnInit() {
     this.setTileColor();
   }
 
-  private openApplication() {
+  private openApplication(): void {
     this.router.navigate(["/application/" + this.application.id]);
   }
 
-  private setTileColor() {
+  private setTileColor(): void {
     this.renderer.setStyle(this.elRef.nativeElement, "background-color", "hsl(" + this.application.colorHue + ", 100%, 34.5%)");
   }
 }
