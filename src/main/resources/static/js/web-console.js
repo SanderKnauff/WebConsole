@@ -1,5 +1,8 @@
 var stompClient = null;
 
+var Converter = require("ansi-to-html");
+var converter = new Converter();
+
 function connect() {
     var socket = new SockJS('/sockets');
 
@@ -57,7 +60,8 @@ function clearLog() {
 
 function createMessageLine(message) {
     var span = document.createElement('div');
-    span.appendChild(document.createTextNode(message.line));
+    span.innerHTML = converter.toHtml(message.line);
+    // span.appendChild(node);
     span.classList.add('line');
     span.classList.add(message.logType);
     return span;
