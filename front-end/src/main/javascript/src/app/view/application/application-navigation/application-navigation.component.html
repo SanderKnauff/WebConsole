@@ -1,0 +1,12 @@
+<app-application-navigation-button [imageUrl]="'/assets/img/icon_start.svg'"
+                                   (click)="startApplication($event)"
+                                   [altButton]="true"></app-application-navigation-button>
+<app-application-navigation-button [imageUrl]="'/assets/img/icon_stop.svg'"
+                                   (click)="stopApplication($event)"
+                                   [altButton]="true"></app-application-navigation-button>
+<app-application-navigation-button [imageUrl]="'/assets/img/icon_restart.svg'"
+                                   (click)="restartApplication($event)"
+                                   [altButton]="true"></app-application-navigation-button>
+<app-application-navigation-button [imageUrl]="'/assets/img/icon_delete.svg'"
+                                   (click)="clearLogs()"
+                                   class="endButton"></app-application-navigation-button>
