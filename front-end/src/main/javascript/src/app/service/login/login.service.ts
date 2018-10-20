@@ -2,7 +2,6 @@ import {Injectable, isDevMode} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {cr} from "@angular/core/src/render3";
 import {User} from "../../model/user";
 import {LoginCredentials} from "../../model/login-credentials";
 import {Endpoints} from "../../model/endpoints";
@@ -19,7 +18,7 @@ export class LoginService {
   }
 
   login(credentials: LoginCredentials) {
-    if(!isDevMode()) {
+    if (!isDevMode()) {
       this.authenticate(credentials);
     } else {
       this.mockAuthenticate(credentials);
