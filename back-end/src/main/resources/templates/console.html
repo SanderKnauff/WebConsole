@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Web Console</title>
+    <script th:inline="javascript">var environment = /*<![CDATA[*/[[${environment}]]/*]]>*/</script>
+    <script src="/js/sock.js" ></script>
+    <script src="/js/stomp.js"></script>
+    <script src="/js/web-console.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/console.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<body onload="connect()">
+<section id="control">
+    <img class="controlButton altButton" src="/img/icon_start.svg" onclick="startServer(event)"/>
+    <img class="controlButton" src="/img/icon_stop.svg" onclick="stopServer()"/>
+    <img class="controlButton" src="/img/icon_restart.svg" onclick="restartServer()"/>
+    <img class="controlButton endButton" src="/img/icon_delete.svg" onclick="clearLog()"/>
+</section>
+<section id="console" onclick="focusCommandInput()">
+    <section id="logOuput">
+    </section>
+    <div id="command">
+        <span>&gt;&nbsp;</span>
+        <input id="commandInput" autocomplete="off" onkeydown="onCommandInputEnter(event)">
+    </div>
+</section>
+</body>
+</html>

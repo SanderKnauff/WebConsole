@@ -1,0 +1,18 @@
+:host {
+  height: 100%;
+
+  display: flex;
+
+  @media only screen and (orientation: landscape) {
+    flex-direction: row;
+  }
+
+  @media only screen and (orientation: portrait) {
+    flex-direction: column;
+  }
+
+}
+
+
+
+

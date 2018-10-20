@@ -1,0 +1,114 @@
+@media only screen and (orientation: landscape) {
+    body {
+        grid-template: 1fr 0/ 0fr 1fr;
+        grid-template-areas:
+                "controlArea contentArea";
+    }
+
+    #control {
+        flex-direction: column;
+    }
+
+    .endButton {
+        margin-top: auto;
+    }
+}
+
+@media only screen and (orientation: portrait) {
+    body {
+        grid-template: 0fr 1fr / 1fr 0;
+        grid-template-areas:
+                "controlArea"
+                "contentArea";
+    }
+
+    #control {
+        flex-direction: row;
+    }
+
+    .endButton {
+        margin-left: auto;
+    }
+}
+
+body {
+    margin: 0;
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Buttons and actions */
+#control {
+    grid-area: controlArea;
+
+    display: flex;
+    background: rgb(33, 33, 33);
+}
+
+.controlButton {
+}
+
+.controlButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.controlButton:hover.altButtonActive {
+    background: rgba(255, 0, 0, 0.1);
+}
+
+/* Console layout */
+#console {
+    grid-area: contentArea;
+
+    overflow-y: scroll;
+    flex-direction: column;
+
+    background: rgb(7, 54, 66);
+}
+
+#logOuput {
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+#command {
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    flex: auto;
+    display: flex;
+
+    color: rgb(0, 250, 0);
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: small;
+}
+
+#commandInput {
+    flex: auto;
+
+    border: none;
+    background: rgb(7, 54, 66);
+    outline: none;
+
+    color: rgb(0, 250, 0);
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: small;
+}
+
+/* Console output */
+.line {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: small;
+}
+
+.line.OUT {
+     color: rgb(250, 250, 250);
+ }
+
+.line.ERR {
+    color: rgb(250, 0, 0);
+}
+
+.line.SYS {
+    color: rgb(0, 250, 0);
+}

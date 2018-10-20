@@ -1,0 +1,24 @@
+:host {
+
+  &:hover {
+    border: rgba(255, 255, 255, 0.50) 2px solid;
+  }
+
+  width: 10em;
+  height: 10em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border: rgba(255, 255, 255, 0) 2px solid;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+
+  background-size: 7.5em;
+}
+
+span {
+  font-family: "Segoe UI", sans-serif;
+  color: rgb(250, 250, 250);
+  font-size: 0.8em;
+}
+
