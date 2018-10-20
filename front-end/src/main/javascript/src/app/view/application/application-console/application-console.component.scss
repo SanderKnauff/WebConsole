@@ -1,6 +1,4 @@
 :host {
-  display: flex;
-  flex-direction: column;
   overflow-y: scroll;
 
   padding-top: 0.5em;
@@ -13,22 +11,44 @@
   @media only screen and (orientation: portrait) {
     height: 100%;
   }
-}
 
-span {
-  font-family: "Lucida Console", Monaco, monospace;
-  font-size: small;
+  span {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: small;
 
-  &.OUT {
-    color: rgb(250, 250, 250);
+    &.OUT {
+      color: rgb(250, 250, 250);
+    }
+
+    &.ERR {
+      color: rgb(250, 0, 0);
+    }
+
+    &.SYS {
+      color: rgb(0, 250, 0);
+    }
   }
 
-  &.ERR {
-    color: rgb(250, 0, 0);
+  #logOutput {
+    display: flex;
+    flex-direction: column;
   }
 
-  &.SYS {
-    color: rgb(0, 250, 0);
+  #command {
+    display: flex;
+    flex-direction: row;
+
+    input {
+      flex: auto;
+
+      border: none;
+      background: rgb(7, 54, 66);
+      outline: none;
+
+      color: rgb(0, 250, 0);
+      font-family: "Lucida Console", Monaco, monospace;
+      font-size: small;
+    }
   }
 }
 

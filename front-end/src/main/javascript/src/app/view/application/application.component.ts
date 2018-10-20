@@ -4,6 +4,7 @@ import {LogLine} from "../../model/log-line";
 import {LogType} from "../../model/log-type";
 import {interval} from "rxjs/index";
 import {HtmlSanitizer} from "../../service/html-sanitizer.service";
+import {ApplicationService} from "../../service/application/application.service";
 
 @Component({
   selector: 'app-application',
@@ -16,7 +17,9 @@ export class ApplicationComponent implements OnInit {
 
   private messages: LogLine[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private htmlSanatizer: HtmlSanitizer) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private htmlSanatizer: HtmlSanitizer,
+              private applicationService: ApplicationService) {
     this.activatedRoute.params.subscribe(params => this.applicationId = params.applicationId);
   }
 
@@ -27,6 +30,10 @@ export class ApplicationComponent implements OnInit {
         line = this.htmlSanatizer.sanitize(line);
         this.messages.push(new LogLine(line + LogType[val % 3], val % 3));
       });
+  }
+
+  handleCommand(command: string): void {
+    this.applicationService.sendCommand(this.applicationId, command);
   }
 
 }

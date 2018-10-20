@@ -1,1 +1,7 @@
-<span *ngFor="let message of messages" ngClass="{{message.getLogTypeName()}}" [innerHtml]="message.getFormattedLine() | keepHtml"></span>
+<div id="logOutput">
+  <span *ngFor="let message of messages" ngClass="{{message.getLogTypeName()}}" [innerHtml]="message.getFormattedLine() | keepHtml"></span>
+</div>
+<div id="command">
+  <span class="SYS">> </span>
+  <input #commandInput [(ngModel)]="command" (keydown)="sendCommand($event)">
+</div>
