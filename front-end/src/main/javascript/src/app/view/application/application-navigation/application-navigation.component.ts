@@ -62,14 +62,14 @@ export class ApplicationNavigationButtonComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   private handleShiftPressed(event: KeyboardEvent) {
     if (event.shiftKey && this.altButton) {
-      this.renderer.addClass(this.elRef.nativeElement, "altButtonActive");
+      this.renderer.addClass(this.elRef.nativeElement, 'altButtonActive');
     }
   }
 
   @HostListener('window:keyup', ['$event'])
   private handleShiftReleased(event: KeyboardEvent) {
-    if (event.shiftKey && this.altButton) {
-      this.renderer.removeClass(this.elRef.nativeElement, "altButtonActive");
+    if (event.key === 'Shift' && this.altButton) {
+      this.renderer.removeClass(this.elRef.nativeElement, 'altButtonActive');
     }
   }
 }
