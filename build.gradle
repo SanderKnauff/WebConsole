@@ -1,11 +1,4 @@
-buildscript {
-	ext {
-		springBootVersion = '1.5.8.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+allprojects {
+    group = 'nl.imine'
+    version = '0.0.1-SNAPSHOT'
 }

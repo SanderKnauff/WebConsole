@@ -1,40 +1,26 @@
-apply plugin: 'java'
-
-def webappDir = "$projectDir/src/main/javascript"
-sourceSets {
-    main {
-        resources {
-            srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources"]
-        }
-    }
+plugins {
+    id 'java'
+    id 'com.moowork.node' version '1.2.0'
 }
 
-processResources {
-    dependsOn "buildAngular"
+node {
+    version = '8.12.0'
+    npmVersion = '6.4.1'
+
+    workDir = file("${project.buildDir}/nodejs")
+    npmWorkDir = file("${project.buildDir}/npm")
+    nodeModulesDir = file("${project.projectDir}/src/main/javascript")
 }
 
-task buildAngular(type:Exec) {
-    // installAngular should be run prior to this task
-    dependsOn "installAngular"
-    workingDir "$webappDir"
-    inputs.dir "$webappDir"
-    // Add task to the standard build group
-    group = BasePlugin.BUILD_GROUP
-    // ng doesn't exist as a file in windows -> ng.cmd
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-        commandLine "ng.cmd", "build"
-    } else {
-        commandLine "ng", "build"
-    }
+task npmBuild(type: NpmTask) {
+    args = ['run-script', 'build']
 }
 
-task installAngular(type:Exec) {
-    workingDir "$webappDir"
-    inputs.dir "$webappDir"
-    group = BasePlugin.BUILD_GROUP
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-        commandLine "npm.cmd", "install"
-    } else {
-        commandLine "npm", "install"
+jar.dependsOn(npmBuild)
+
+jar {
+    from("${project.projectDir}/src/main/javascript") {
+        include '*'
+        into 'static'
     }
 }
