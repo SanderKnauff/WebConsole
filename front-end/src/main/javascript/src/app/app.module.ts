@@ -18,6 +18,7 @@ import {LoginService} from "./service/login/login.service";
 import {ApplicationService} from "./service/application/application.service";
 import {EscapeHtmlPipe} from "./pipe/keep-html";
 import {HtmlSanitizer} from "./service/html-sanitizer.service";
+import {DashboardService} from "./service/dashboard/dashboard.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {HtmlSanitizer} from "./service/html-sanitizer.service";
     HttpClientModule,
     FormsModule
   ],
-  providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer],
+  providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer, DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
