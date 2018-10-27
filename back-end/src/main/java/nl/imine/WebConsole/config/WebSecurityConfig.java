@@ -16,14 +16,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/setup").permitAll()
-                .antMatchers("/").fullyAuthenticated()
-                .antMatchers("/register/**").hasRole(ApplicationUserRole.ADMIN.getAuthority())
-                .antMatchers("/application/**/**").fullyAuthenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll();
+                .antMatchers("/**").permitAll();
+//                .antMatchers("/setup").permitAll()
+//                .antMatchers("/").fullyAuthenticated()
+//                .antMatchers("/register/**").hasRole(ApplicationUserRole.ADMIN.getAuthority())
+//                .antMatchers("/application/**/**").fullyAuthenticated();
     }
 
     @Bean

@@ -1,9 +1,9 @@
 package nl.imine.WebConsole.thread;
 
+import nl.imine.WebConsole.controller.LogMessageController;
 import nl.imine.WebConsole.model.LogLine;
 import nl.imine.WebConsole.model.LogType;
 import nl.imine.WebConsole.model.WrappedApplication;
-import nl.imine.WebConsole.controller.LogMessageController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

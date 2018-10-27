@@ -16,6 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -34,8 +37,12 @@ public class SetupController {
     }
 
     @GetMapping
-    public View getPage() {
+    public View getPage() throws Exception {
         //If there is already a user account, don't allow to use set-up
+        System.out.println("Performing Set-up");
+        URL url = getClass().getClassLoader().getResource("static");
+        System.out.println(url);
+        System.out.println(Arrays.toString(new File(url.toURI()).list()));
         if(applicationUserRepository.count() <= 0) {
             return new ModelAndView("setup").getView();
         } else {

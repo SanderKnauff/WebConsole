@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.8.RELEASE'
+		springBootVersion = '2.0.6.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -11,12 +11,11 @@ buildscript {
 }
 
 plugins {
-	id 'org.springframework.boot' version '1.5.8.RELEASE'
+	id 'java'
+	id 'com.github.johnrengelman.shadow' version '2.0.4'
+	id 'org.springframework.boot' version '2.0.6.RELEASE'
+	id "io.spring.dependency-management" version "1.0.6.RELEASE"
 }
-
-
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
@@ -25,19 +24,26 @@ repositories {
 }
 
 dependencies {
+	compile project(':front-end')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-websocket')
-	compile('org.springframework.security:spring-security-messaging:4.2.3.RELEASE')
-	compile('org.thymeleaf:thymeleaf:3.0.9.RELEASE')
-	compile('org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE')
-	compile('javax.servlet:jstl')
-    compile('mysql:mysql-connector-java')
-	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile('org.springframework.security:spring-security-messaging:5.1.1.RELEASE')
+	compile('javax.xml.bind:jaxb-api:2.3.0')
+	compile('org.hibernate:hibernate-core:5.3.7.Final')
+	compile('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-springBoot {
-	executable = true
+bootJar.dependsOn(shadowJar)
+
+shadowJar {
+	dependencies {
+		include dependency(':front-end')
+	}
+}
+
+bootJar {
+	launchScript()
 }

@@ -1,9 +1,7 @@
 package nl.imine.WebConsole.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.imine.WebConsole.model.ApplicationUser;
-import nl.imine.WebConsole.model.ApplicationUserRole;
 import nl.imine.WebConsole.repository.ApplicationUserRepository;
 import nl.imine.WebConsole.service.ApplicationUserService;
 import nl.imine.WebConsole.validator.ApplicationUserValidator;
@@ -11,12 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

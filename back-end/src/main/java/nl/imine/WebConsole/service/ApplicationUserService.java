@@ -22,6 +22,6 @@ public class ApplicationUserService {
     }
 
     public ApplicationUser findUser(String username) {
-        return applicationUserRepository.findOne(username);
+        return applicationUserRepository.getOne(username);
     }
 }

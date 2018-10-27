@@ -28,7 +28,7 @@ public class ApplicationUserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "username.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty");
 
-        if(applicationUserRepository.exists(applicationUser.getUsername())) {
+        if(applicationUserRepository.existsById(applicationUser.getUsername())) {
             errors.rejectValue("username", "username.exists");
         }
     }

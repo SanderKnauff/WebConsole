@@ -1,4 +1,6 @@
 allprojects {
-    group = 'nl.imine'
+    group = 'nl.imine.webconsole'
     version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
 }

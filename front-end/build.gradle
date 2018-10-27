@@ -19,8 +19,8 @@ task npmBuild(type: NpmTask) {
 jar.dependsOn(npmBuild)
 
 jar {
-    from("${project.projectDir}/src/main/javascript") {
-        include '*'
-        into 'static'
+    from("${project.projectDir}/src/main/javascript/dist/javascript/") {
+        include '*', '**/*'
+        into 'META-INF/resources'
     }
 }
