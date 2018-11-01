@@ -111,7 +111,7 @@ public class ApplicationProcessService implements ApplicationAliveMonitor.Applic
 
     public Optional<ApplicationProcess> getApplicationProcess(String id) {
         return currentProcesses.stream()
-                .filter(applicationProcess -> applicationProcess.getWrappedApplication().getId().equals(id))
+                .filter(applicationProcess -> applicationProcess.getWrappedApplication().getId().equalsIgnoreCase(id))
                 .findFirst();
     }
 }

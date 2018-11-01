@@ -19,6 +19,17 @@ import {ApplicationService} from "./service/application/application.service";
 import {EscapeHtmlPipe} from "./pipe/keep-html";
 import {HtmlSanitizer} from "./service/html-sanitizer.service";
 import {DashboardService} from "./service/dashboard/dashboard.service";
+import {StompConfig, StompService} from "@stomp/ng2-stompjs";
+
+const stompConfig: StompConfig = {
+  url: `ws://${window.location.host}/socket`,
+  headers: {
+  },
+  heartbeat_in: 0,
+  heartbeat_out: 20000,
+  reconnect_delay: 5000,
+  debug: false
+};
 
 @NgModule({
   declarations: [
@@ -38,7 +49,7 @@ import {DashboardService} from "./service/dashboard/dashboard.service";
     HttpClientModule,
     FormsModule
   ],
-  providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer, DashboardService],
+  providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer, DashboardService, StompService, {provide: StompConfig, useValue: stompConfig}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

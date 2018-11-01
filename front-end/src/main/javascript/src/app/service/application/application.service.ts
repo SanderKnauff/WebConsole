@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {WebSocketSubject} from "rxjs/webSocket";
+import {StompService} from "@stomp/ng2-stompjs";
+import {Observable} from "rxjs/index";
+import {Message} from '@stomp/stompjs';
 
 @Injectable()
 export class ApplicationService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private stompService: StompService) {
   }
 
   public startServer(applicationId: string, debugModeEnabled: boolean): void {
@@ -24,8 +26,12 @@ export class ApplicationService {
     this.http.post(`/application/${applicationId}/sendCommand`, command).subscribe()
   }
 
-  public openWebSocketConnection(applicationId: string): WebSocketSubject<string> {
-    return new WebSocketSubject("/socket");
+  public openWebSocketConnection(applicationId: string): Observable<Message> {
+    this.stompService.state
+      .subscribe((status: any) => {
+        console.log(`Stomp connection status: ${status}`);
+      });
+    return this.stompService.subscribe("/logs/" + applicationId);
   }
 
 }

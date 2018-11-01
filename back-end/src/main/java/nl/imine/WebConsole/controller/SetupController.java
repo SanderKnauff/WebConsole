@@ -37,12 +37,7 @@ public class SetupController {
     }
 
     @GetMapping
-    public View getPage() throws Exception {
-        //If there is already a user account, don't allow to use set-up
-        System.out.println("Performing Set-up");
-        URL url = getClass().getClassLoader().getResource("static");
-        System.out.println(url);
-        System.out.println(Arrays.toString(new File(url.toURI()).list()));
+    public View getPage() {
         if(applicationUserRepository.count() <= 0) {
             return new ModelAndView("setup").getView();
         } else {

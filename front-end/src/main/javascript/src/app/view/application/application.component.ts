@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {LogLine} from "../../model/log-line";
-import {LogType} from "../../model/log-type";
-import {interval} from "rxjs/index";
 import {HtmlSanitizer} from "../../service/html-sanitizer.service";
 import {ApplicationService} from "../../service/application/application.service";
 
@@ -24,16 +22,33 @@ export class ApplicationComponent implements OnInit {
   }
 
   ngOnInit() {
-    interval(1000)
-      .subscribe((val) => {
-        let line = "[0;33;1m1II1[39;0m[0;33;1m <h1>left</h1> the & game[39;0m[39;0mThis is a logLine with type ";
-        line = this.htmlSanatizer.sanitize(line);
-        this.messages.push(new LogLine(line + LogType[val % 3], val % 3));
-      });
+    this.applicationService.openWebSocketConnection(this.applicationId).subscribe(
+      (next) => {
+        this.appendLog(this.messageBodyToLogLine(next.body));
+      },
+      (error) => console.log(`[${this.applicationId}] Received error: ${JSON.stringify(error)}`),
+      () => console.log(`[${this.applicationId}] WebSocketConnection closed`)
+    );
+  }
+
+  private appendLog(logLines: LogLine[]): void {
+    for (let logLine of logLines) {
+      let escapedLine: string = this.htmlSanatizer.sanitize(logLine.line);
+      this.messages.push(new LogLine(escapedLine, logLine.logType));
+    }
   }
 
   handleCommand(command: string): void {
     this.applicationService.sendCommand(this.applicationId, command);
+  }
+
+  private messageBodyToLogLine(messageBody: string): LogLine[] {
+    let rawLogLinesArray: any[] = JSON.parse(messageBody);
+    let logLines: LogLine[] = [];
+    for (let rawLogLine of rawLogLinesArray) {
+      logLines.push(new LogLine(rawLogLine.line, rawLogLine.logType));
+    }
+    return logLines;
   }
 
 }
