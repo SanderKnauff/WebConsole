@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {LogLine} from "../../model/log-line";
 import {HtmlSanitizer} from "../../service/html-sanitizer.service";
@@ -35,6 +35,7 @@ export class ApplicationComponent implements OnInit {
     for (let logLine of logLines) {
       let escapedLine: string = this.htmlSanatizer.sanitize(logLine.line);
       this.messages.push(new LogLine(escapedLine, logLine.logType));
+      this.messages = Object.assign([], this.messages);
     }
   }
 

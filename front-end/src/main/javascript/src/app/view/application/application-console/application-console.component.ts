@@ -1,14 +1,16 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {LogLine} from "../../../model/log-line";
 import {ApplicationService} from "../../../service/application/application.service";
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
   selector: 'app-application-console',
   templateUrl: './application-console.component.html',
   styleUrls: ['./application-console.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    "(click)": "focusOnInput()"
+    "(dblclick)": "focusOnInput()"
   }
 })
 export class ApplicationConsoleComponent {
@@ -20,22 +22,20 @@ export class ApplicationConsoleComponent {
   @Input()
   private applicationId: string;
 
-  private command: string = '';
+  private commandGroup: FormGroup = new FormGroup({
+    command: new FormControl()
+  });
 
   constructor(private applicationService: ApplicationService) {
   }
 
-  private sendCommand(event: KeyboardEvent): void {
-    this.commandInputField.nativeElement.focus();
-    if (event.key === 'Enter') {
-      console.log(`Sending Command ${this.command}`);
-      this.applicationService.sendCommand(this.applicationId, this.command);
-      this.command = '';
-    }
+  private sendCommand(form: any): void {
+    this.applicationService.sendCommand(this.applicationId, form.command);
+    this.commandGroup.reset();
   }
 
   private focusOnInput(): void {
-    this.commandInputField.nativeElement.focus({preventScroll: true});
+    this.commandInputField.nativeElement.focus({preventScroll: false});
   }
 }
 

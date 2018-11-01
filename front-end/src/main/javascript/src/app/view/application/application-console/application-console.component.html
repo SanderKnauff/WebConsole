@@ -1,7 +1,7 @@
 <div id="logOutput">
   <span *ngFor="let message of messages" ngClass="{{message.getLogTypeName()}}" [innerHtml]="message.getFormattedLine() | keepHtml"></span>
 </div>
-<div id="command">
+<form [formGroup]="commandGroup" (keyup.enter)="sendCommand(commandGroup.value)" id="command">
   <span class="SYS">> </span>
-  <input #commandInput [(ngModel)]="command" (keydown)="sendCommand($event)">
-</div>
+  <input formControlName="command" type="text" #commandInput>
+</form>

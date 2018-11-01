@@ -4,7 +4,7 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './view/dashboard/dashboard.component';
 import {AppRoutingModule} from "./routing/app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ApplicationTileComponent} from './view/dashboard/application-tile/application-tile.component';
 import {ApplicationComponent} from './view/application/application.component';
 import {
@@ -47,7 +47,8 @@ const stompConfig: StompConfig = {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer, DashboardService, StompService, {provide: StompConfig, useValue: stompConfig}],
   bootstrap: [AppComponent]
