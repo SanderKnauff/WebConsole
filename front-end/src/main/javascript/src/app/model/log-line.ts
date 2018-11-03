@@ -1,10 +1,9 @@
-import {LogType} from "./log-type";
 import Filter from "ansi-to-html";
 
 export class LogLine {
 
   constructor(public line: string,
-              public logType: LogType) {
+              public logType: string) {
   }
 
   public getFormattedLine(): string {
@@ -12,7 +11,4 @@ export class LogLine {
     return converter.toHtml(this.line);
   }
 
-  public getLogTypeName(): string {
-    return LogType[this.logType];
-  }
 }

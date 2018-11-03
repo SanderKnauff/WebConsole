@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {LogLine} from "../../model/log-line";
 import {HtmlSanitizer} from "../../service/html-sanitizer.service";
@@ -16,7 +16,7 @@ export class ApplicationComponent implements OnInit {
   private messages: LogLine[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
-              private htmlSanatizer: HtmlSanitizer,
+              private htmlSanitizer: HtmlSanitizer,
               private applicationService: ApplicationService) {
     this.activatedRoute.params.subscribe(params => this.applicationId = params.applicationId);
   }
@@ -33,7 +33,7 @@ export class ApplicationComponent implements OnInit {
 
   private appendLog(logLines: LogLine[]): void {
     for (let logLine of logLines) {
-      let escapedLine: string = this.htmlSanatizer.sanitize(logLine.line);
+      let escapedLine: string = this.htmlSanitizer.sanitize(logLine.line);
       this.messages.push(new LogLine(escapedLine, logLine.logType));
       this.messages = Object.assign([], this.messages);
     }
