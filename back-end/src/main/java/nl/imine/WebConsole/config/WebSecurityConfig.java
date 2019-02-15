@@ -1,30 +1,39 @@
 package nl.imine.WebConsole.config;
 
-import nl.imine.WebConsole.model.ApplicationUserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/**").permitAll();
-//                .antMatchers("/setup").permitAll()
-//                .antMatchers("/").fullyAuthenticated()
-//                .antMatchers("/register/**").hasRole(ApplicationUserRole.ADMIN.getAuthority())
-//                .antMatchers("/application/**/**").fullyAuthenticated();
+    private final UserDetailAuthenticationSuccessHandler userDetailAuthenticationSuccessHandler;
+
+    public WebSecurityConfig(UserDetailAuthenticationSuccessHandler userDetailAuthenticationSuccessHandler) {
+        this.userDetailAuthenticationSuccessHandler = userDetailAuthenticationSuccessHandler;
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //Permissions
+        http.authorizeRequests()
+                .antMatchers("/**").permitAll();
+
+        http.csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
+        http.formLogin()
+                .successHandler(userDetailAuthenticationSuccessHandler)
+                .failureHandler((request, response, exception) -> response.setStatus(HttpServletResponse.SC_UNAUTHORIZED))
+                .and()
+                .logout();
+
     }
 }

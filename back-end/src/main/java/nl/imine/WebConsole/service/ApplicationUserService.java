@@ -5,6 +5,8 @@ import nl.imine.WebConsole.repository.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ApplicationUserService {
 
@@ -21,7 +23,7 @@ public class ApplicationUserService {
         applicationUserRepository.save(applicationUser);
     }
 
-    public ApplicationUser findUser(String username) {
-        return applicationUserRepository.getOne(username);
+    public Optional<ApplicationUser> findUser(String username) {
+        return applicationUserRepository.findOneByUsername(username);
     }
 }

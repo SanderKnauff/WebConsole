@@ -1,5 +1,6 @@
 package nl.imine.WebConsole.validator;
 
+import nl.imine.WebConsole.dto.NewUserDto;
 import nl.imine.WebConsole.model.ApplicationUser;
 import nl.imine.WebConsole.repository.ApplicationUserRepository;
 import org.springframework.stereotype.Component;
@@ -8,27 +9,28 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class ApplicationUserValidator implements Validator {
+public class NewUserDtoValidator implements Validator {
 
     private final ApplicationUserRepository applicationUserRepository;
 
-    public ApplicationUserValidator(ApplicationUserRepository applicationUserRepository) {
+    public NewUserDtoValidator(ApplicationUserRepository applicationUserRepository) {
         this.applicationUserRepository = applicationUserRepository;
     }
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return ApplicationUser.class.equals(clazz);
+        return NewUserDto.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        ApplicationUser applicationUser = (ApplicationUser) target;
+        NewUserDto newUser = (NewUserDto) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "username.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "passwordConfirm.empty");
 
-        if(applicationUserRepository.existsById(applicationUser.getUsername())) {
+        if(applicationUserRepository.existsById(newUser.getUsername())) {
             errors.rejectValue("username", "username.exists");
         }
     }

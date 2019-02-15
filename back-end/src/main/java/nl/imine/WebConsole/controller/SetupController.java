@@ -1,83 +1,54 @@
 package nl.imine.WebConsole.controller;
 
+import nl.imine.WebConsole.dto.NewUserDto;
 import nl.imine.WebConsole.model.ApplicationUser;
-import nl.imine.WebConsole.model.ApplicationUserRole;
 import nl.imine.WebConsole.repository.ApplicationUserRepository;
 import nl.imine.WebConsole.service.ApplicationUserService;
-import nl.imine.WebConsole.validator.ApplicationUserValidator;
-import org.springframework.stereotype.Controller;
+import nl.imine.WebConsole.validator.NewUserDtoValidator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Arrays;
+import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/setup")
 public class SetupController {
 
     private final ApplicationUserRepository applicationUserRepository;
     private final ApplicationUserService applicationUserService;
-    private final ApplicationUserValidator applicationUserValidator;
+    private final NewUserDtoValidator newUserDtoValidator;
 
-    public SetupController(ApplicationUserRepository applicationUserRepository, ApplicationUserService applicationUserService, ApplicationUserValidator applicationUserValidator) {
+    public SetupController(ApplicationUserRepository applicationUserRepository, ApplicationUserService applicationUserService, NewUserDtoValidator newUserDtoValidator) {
         this.applicationUserRepository = applicationUserRepository;
         this.applicationUserService = applicationUserService;
-        this.applicationUserValidator = applicationUserValidator;
-    }
-
-    @GetMapping
-    public View getPage() {
-        if(applicationUserRepository.count() <= 0) {
-            return new ModelAndView("setup").getView();
-        } else {
-            return new RedirectView("/");
-        }
+        this.newUserDtoValidator = newUserDtoValidator;
     }
 
     @PostMapping
-    public ModelAndView setupInitialUser(@ModelAttribute("UserDetails") NewApplicationUser applicationUser, BindingResult bindingResult) {
+    public ResponseEntity<?> setupInitialUser(@RequestBody @Valid NewUserDto applicationUser, BindingResult bindingResult) {
         if(applicationUserRepository.count() <= 0) {
-            applicationUserValidator.validate(applicationUser, bindingResult);
+            newUserDtoValidator.validate(applicationUser, bindingResult);
 
-            if (!applicationUser.getPassword().equals(applicationUser.getNewPassword())) {
+            if (!applicationUser.getPassword().equals(applicationUser.getPasswordConfirm())) {
                 bindingResult.rejectValue("newPassword", "password.not.equal");
             }
 
             if (bindingResult.hasErrors()) {
-                return new ModelAndView("setup", "errors", bindingResult.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.toList()));
+                List<String> validationResults = bindingResult.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.toList());
+                return ResponseEntity.badRequest().body(validationResults);
             }
 
-            applicationUser.setRoles(Collections.singleton(ApplicationUserRole.ADMIN));
-
             //Recreate object as down-casted type so JPA can handle it. Also removes passwordConfirm object
-            applicationUserService.save(new ApplicationUser(applicationUser.getUsername(), applicationUser.getPassword(), applicationUser.getRoles()));
-            return new ModelAndView("login");
+            applicationUserService.save(new ApplicationUser(applicationUser.getUsername(), applicationUser.getPassword(), Collections.emptySet()));
+            return ResponseEntity.ok().build();
         } else {
-            return new ModelAndView("/");
-        }
-    }
-
-    private static class NewApplicationUser extends ApplicationUser {
-
-        private String newPassword;
-
-        public String getNewPassword() {
-            return newPassword;
-        }
-
-        public void setNewPassword(String newPassword) {
-            this.newPassword = newPassword;
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
     }
 }
