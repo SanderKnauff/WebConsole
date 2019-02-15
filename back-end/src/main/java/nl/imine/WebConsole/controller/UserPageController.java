@@ -45,10 +45,10 @@ public class UserPageController {
     }
 
     @PostMapping("/new")
-    public ModelAndView createNewUser(@RequestBody @Valid NewUserDto applicationUser, BindingResult bindingResult) throws JsonProcessingException {
-        newUserDtoValidator.validate(applicationUser, bindingResult);
+    public ModelAndView createNewUser(@RequestBody @Valid NewUserDto newUserDto, BindingResult bindingResult) throws JsonProcessingException {
+        newUserDtoValidator.validate(newUserDto, bindingResult);
 
-        if (!applicationUser.getPassword().equals(applicationUser.getNewPassword())) {
+        if (!newUserDto.getPassword().equals(newUserDto.getNewPassword())) {
             bindingResult.rejectValue("newPassword", "password.not.equal");
         }
 
@@ -57,9 +57,9 @@ public class UserPageController {
         }
 
         //Recreate object as down-casted type so JPA can handle it. Also removes passwordConfirm object
-        applicationUserService.save(new ApplicationUser(applicationUser.getUsername(), applicationUser.getPassword(), applicationUser.getRoles()));
+        applicationUserService.save(new ApplicationUser(newUserDto.getUsername(), newUserDto.getPassword(), newUserDto.getRoles()));
         ModelAndView page = getPage();
-        page.addObject("createdUser", cleanUser(applicationUser));
+        page.addObject("createdUser", cleanUser(newUserDto));
         return page;
     }
 

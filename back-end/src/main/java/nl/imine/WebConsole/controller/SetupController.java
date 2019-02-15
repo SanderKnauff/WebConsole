@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,11 +33,11 @@ public class SetupController {
     }
 
     @PostMapping
-    public ResponseEntity<?> setupInitialUser(@RequestBody @Valid NewUserDto applicationUser, BindingResult bindingResult) {
+    public ResponseEntity<?> setupInitialUser(@RequestBody NewUserDto newUserDto, BindingResult bindingResult) {
         if(applicationUserRepository.count() <= 0) {
-            newUserDtoValidator.validate(applicationUser, bindingResult);
+            newUserDtoValidator.validate(newUserDto, bindingResult);
 
-            if (!applicationUser.getPassword().equals(applicationUser.getPasswordConfirm())) {
+            if (!newUserDto.getPassword().equals(newUserDto.getPasswordConfirm())) {
                 bindingResult.rejectValue("newPassword", "password.not.equal");
             }
 
@@ -45,7 +47,7 @@ public class SetupController {
             }
 
             //Recreate object as down-casted type so JPA can handle it. Also removes passwordConfirm object
-            applicationUserService.save(new ApplicationUser(applicationUser.getUsername(), applicationUser.getPassword(), Collections.emptySet()));
+            applicationUserService.save(new ApplicationUser(newUserDto.getUsername(), newUserDto.getPassword(), Collections.emptySet()));
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();

@@ -1,30 +1,32 @@
 package nl.imine.WebConsole.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class WrappedApplication {
 
+    @Id
+    @GeneratedValue(generator = "system-uuid")
     private String id;
     private String debugString;
     private String commandString;
     private String workingDirectory;
-    private WrappedApplicationOptions wrappedApplicationOptions;
+    private String applicationName;
+    private int colorHue;
+    private String icon;
+    private String iconContentType;
 
-    public WrappedApplication() {
-    }
-
-    public WrappedApplication(String id, String debugString, String commandString, String workingDirectory, WrappedApplicationOptions wrappedApplicationOptions) {
+    public WrappedApplication(String id, String debugString, String commandString, String workingDirectory) {
         this.id = id;
         this.debugString = debugString;
         this.commandString = commandString;
         this.workingDirectory = workingDirectory;
-        this.wrappedApplicationOptions = wrappedApplicationOptions;
     }
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDebugString() {
@@ -51,11 +53,35 @@ public class WrappedApplication {
         this.workingDirectory = workingDirectory;
     }
 
-    public WrappedApplicationOptions getWrappedApplicationOptions() {
-        return wrappedApplicationOptions;
+    public String getApplicationName() {
+        return applicationName;
     }
 
-    public void setWrappedApplicationOptions(WrappedApplicationOptions wrappedApplicationOptions) {
-        this.wrappedApplicationOptions = wrappedApplicationOptions;
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    public int getColorHue() {
+        return colorHue;
+    }
+
+    public void setColorHue(int colorHue) {
+        this.colorHue = colorHue;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIconContentType() {
+        return iconContentType;
+    }
+
+    public void setIconContentType(String iconContentType) {
+        this.iconContentType = iconContentType;
     }
 }
