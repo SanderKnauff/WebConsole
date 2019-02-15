@@ -20,6 +20,8 @@ import {EscapeHtmlPipe} from "./pipe/keep-html";
 import {HtmlSanitizer} from "./service/html-sanitizer.service";
 import {DashboardService} from "./service/dashboard/dashboard.service";
 import {StompConfig, StompService} from "@stomp/ng2-stompjs";
+import { SetupComponent } from './view/setup/setup.component';
+import {SetupService} from "./service/setup/setup.service";
 
 const stompConfig: StompConfig = {
   url: `ws://${window.location.host}/socket`,
@@ -41,7 +43,8 @@ const stompConfig: StompConfig = {
     ApplicationComponent,
     ApplicationNavigationComponent,
     ApplicationNavigationButtonComponent,
-    ApplicationConsoleComponent
+    ApplicationConsoleComponent,
+    SetupComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,7 @@ const stompConfig: StompConfig = {
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer, DashboardService, StompService, {provide: StompConfig, useValue: stompConfig}],
+  providers: [LoginGuard, LoginService, ApplicationService, HtmlSanitizer, DashboardService, SetupService, StompService, {provide: StompConfig, useValue: stompConfig}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
