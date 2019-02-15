@@ -4,15 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.imine.WebConsole.model.ApplicationUser;
 import nl.imine.WebConsole.repository.ApplicationUserRepository;
 import nl.imine.WebConsole.service.ApplicationUserService;
-import nl.imine.WebConsole.validator.ApplicationUserValidator;
+import nl.imine.WebConsole.validator.NewUserDtoValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,12 +24,12 @@ public class UserPageController {
 
     private final ApplicationUserRepository applicationUserRepository;
     private final ApplicationUserService applicationUserService;
-    private final ApplicationUserValidator applicationUserValidator;
+    private final NewUserDtoValidator newUserDtoValidator;
 
-    public UserPageController(ApplicationUserRepository applicationUserRepository, ApplicationUserService applicationUserService, ApplicationUserValidator applicationUserValidator) {
+    public UserPageController(ApplicationUserRepository applicationUserRepository, ApplicationUserService applicationUserService, NewUserDtoValidator newUserDtoValidator) {
         this.applicationUserRepository = applicationUserRepository;
         this.applicationUserService = applicationUserService;
-        this.applicationUserValidator = applicationUserValidator;
+        this.newUserDtoValidator = newUserDtoValidator;
     }
 
     @GetMapping
@@ -43,8 +45,8 @@ public class UserPageController {
     }
 
     @PostMapping("/new")
-    public ModelAndView createNewUser(NewApplicationUser applicationUser, BindingResult bindingResult) throws JsonProcessingException {
-        applicationUserValidator.validate(applicationUser, bindingResult);
+    public ModelAndView createNewUser(@RequestBody NewApplicationUser applicationUser, BindingResult bindingResult) throws JsonProcessingException {
+        newUserDtoValidator.validate(applicationUser, bindingResult);
 
         if (!applicationUser.getPassword().equals(applicationUser.getNewPassword())) {
             bindingResult.rejectValue("newPassword", "password.not.equal");

@@ -8,11 +8,11 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class ApplicationUserValidator implements Validator {
+public class NewUserDtoValidator implements Validator {
 
     private final ApplicationUserRepository applicationUserRepository;
 
-    public ApplicationUserValidator(ApplicationUserRepository applicationUserRepository) {
+    public NewUserDtoValidator(ApplicationUserRepository applicationUserRepository) {
         this.applicationUserRepository = applicationUserRepository;
     }
 

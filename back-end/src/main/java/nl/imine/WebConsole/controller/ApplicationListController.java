@@ -21,12 +21,12 @@ public class ApplicationListController {
 
     @GetMapping
     public List<ApplicationDetailsDto> getApplicationList() {
-        return wrappedApplicationService.getAllWrappedApplications().stream()
+        return wrappedApplicationService.getAll().stream()
                 .map(wrappedApplication ->
                         new ApplicationDetailsDto(
                                 wrappedApplication.getId(),
-                                wrappedApplication.getWrappedApplicationOptions().getApplicationName(),
-                                wrappedApplication.getWrappedApplicationOptions().getColorHue()
+                                wrappedApplication.getApplicationName(),
+                                wrappedApplication.getColorHue()
                         )
                 )
                 .collect(Collectors.toList());

@@ -4,7 +4,6 @@ import nl.imine.WebConsole.model.WrappedApplication;
 import nl.imine.WebConsole.service.ApplicationIconService;
 import nl.imine.WebConsole.service.ApplicationProcessService;
 import nl.imine.WebConsole.service.WrappedApplicationService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/application/{id}")
 public class WrappedApplicationController {
 
@@ -37,7 +36,7 @@ public class WrappedApplicationController {
     @ResponseBody
     @GetMapping("/start")
     public void startApplication(@PathVariable String id, @RequestParam(name = "debug", defaultValue = "false", required = false) boolean debug) {
-        wrappedApplicationService.getWrappedApplicationById(id).ifPresent(wrappedApplication -> {
+        wrappedApplicationService.findById(id).ifPresent(wrappedApplication -> {
             applicationProcessService.startApplication(applicationProcessService.getOrCreateApplicationProcess(wrappedApplication), debug);
         });
     }
@@ -69,12 +68,12 @@ public class WrappedApplicationController {
     @ResponseBody
     @GetMapping("/icon")
     public void getIcon(HttpServletResponse response, @PathVariable String id) throws IOException {
-        Optional<WrappedApplication> oWrappedApplication = wrappedApplicationService.getWrappedApplicationById(id);
+        Optional<WrappedApplication> oWrappedApplication = wrappedApplicationService.findById(id);
         if (oWrappedApplication.isPresent()) {
             WrappedApplication wrappedApplication = oWrappedApplication.get();
-            Optional<byte[]> oApplicationIcon = applicationIconService.getIcon(wrappedApplication.getWrappedApplicationOptions().getIcon());
+            Optional<byte[]> oApplicationIcon = applicationIconService.getIcon(wrappedApplication.getIcon());
             if (oApplicationIcon.isPresent()) {
-                response.setContentType(wrappedApplication.getWrappedApplicationOptions().getIconContentType());
+                response.setContentType(wrappedApplication.getIconContentType());
                 response.getOutputStream().write(oApplicationIcon.get());
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Icon not found");
@@ -87,14 +86,14 @@ public class WrappedApplicationController {
     @ResponseBody
     @PostMapping(value = "/icon", consumes = {"image/svg+xml", "image/png", "image/jpeg"})
     public void storeIcon(HttpServletResponse response, HttpServletRequest httpServletRequest, @PathVariable String id, @RequestBody byte[] image) throws IOException {
-        Optional<WrappedApplication> oWrappedApplication = wrappedApplicationService.getWrappedApplicationById(id);
+        Optional<WrappedApplication> oWrappedApplication = wrappedApplicationService.findById(id);
         if (oWrappedApplication.isPresent()) {
             WrappedApplication wrappedApplication = oWrappedApplication.get();
             String iconName = "icon_" + wrappedApplication.getId() + "." + httpServletRequest.getHeader("Content-Type").split("/")[1].split("\\+")[0];
-            wrappedApplication.getWrappedApplicationOptions().setIcon(iconName);
-            wrappedApplication.getWrappedApplicationOptions().setIconContentType(httpServletRequest.getContentType());
+            wrappedApplication.setIcon(iconName);
+            wrappedApplication.setIconContentType(httpServletRequest.getContentType());
             applicationIconService.saveIcon(iconName, image);
-            wrappedApplicationService.saveWrappedApplications();
+            wrappedApplicationService.save(wrappedApplication);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
