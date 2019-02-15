@@ -12,10 +12,12 @@ node {
     nodeModulesDir = file("${project.projectDir}/src/main/javascript")
 }
 
+
 task npmBuild(type: NpmTask) {
     args = ['run-script', 'build']
 }
 
+npmBuild.dependsOn(npmInstall)
 jar.dependsOn(npmBuild)
 
 jar {
