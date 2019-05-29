@@ -1,10 +1,10 @@
 package nl.imine.webconsole.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.imine.webconsole.model.ApplicationUser;
 import nl.imine.webconsole.repository.ApplicationUserRepository;
 import nl.imine.webconsole.service.ApplicationUserService;
 import nl.imine.webconsole.validator.NewUserDtoValidator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,19 +32,13 @@ public class UserPageController {
     }
 
     @GetMapping
-    public ModelAndView getPage() throws JsonProcessingException {
-        ModelAndView modelAndView = new ModelAndView("user/userList");
-        modelAndView.addObject("users", cleanUsers(applicationUserRepository.findAll()));
-        return modelAndView;
+    public List<ApplicationUser> getPage() {
+        return cleanUsers(applicationUserRepository.findAll());
     }
 
-    @GetMapping("/new")
-    public ModelAndView getNewUserPage() {
-        return new ModelAndView("user/newUser");
-    }
 
     @PostMapping("/new")
-    public ModelAndView createNewUser(@RequestBody @Valid NewUserDto newUserDto, BindingResult bindingResult) throws JsonProcessingException {
+    public ResponseEntity createNewUser(@RequestBody @Valid NewUserDto newUserDto, BindingResult bindingResult) {
         newUserDtoValidator.validate(newUserDto, bindingResult);
 
         if (!newUserDto.getPassword().equals(newUserDto.getNewPassword())) {
@@ -53,14 +46,13 @@ public class UserPageController {
         }
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("user/newUser", "errors", bindingResult.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.toList()));
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.toList()));
         }
 
         //Recreate object as down-casted type so JPA can handle it. Also removes passwordConfirm object
         applicationUserService.save(new ApplicationUser(newUserDto.getUsername(), newUserDto.getPassword(), newUserDto.getRoles()));
-        ModelAndView page = getPage();
-        page.addObject("createdUser", cleanUser(newUserDto));
-        return page;
+        return ResponseEntity.ok(cleanUser(newUserDto));
+
     }
 
     private List<ApplicationUser> cleanUsers(List<ApplicationUser> users) {

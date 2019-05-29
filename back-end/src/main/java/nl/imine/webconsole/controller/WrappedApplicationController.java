@@ -5,7 +5,6 @@ import nl.imine.webconsole.service.ApplicationIconService;
 import nl.imine.webconsole.service.ApplicationProcessService;
 import nl.imine.webconsole.service.WrappedApplicationService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +23,6 @@ public class WrappedApplicationController {
         this.applicationProcessService = applicationProcessService;
         this.wrappedApplicationService = wrappedApplicationService;
         this.applicationIconService = applicationIconService;
-    }
-
-    @GetMapping
-    public ModelAndView showPage(@PathVariable String id) {
-        ModelAndView modelAndView = new ModelAndView("console");
-        modelAndView.addObject("environment", id);
-        return modelAndView;
     }
 
     @ResponseBody
