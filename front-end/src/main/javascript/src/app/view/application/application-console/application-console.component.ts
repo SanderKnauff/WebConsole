@@ -15,7 +15,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class ApplicationConsoleComponent implements AfterViewChecked {
 
-  @ViewChild("commandInput")
+  @ViewChild("commandInput", { static: true })
   private commandInputField: ElementRef;
   @Input()
   private messages: LogLine[];
