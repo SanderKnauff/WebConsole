@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/application/{id}")
+@RequestMapping("/application")
 public class WrappedApplicationController {
 
     private final ApplicationProcessService applicationProcessService;
@@ -25,40 +25,35 @@ public class WrappedApplicationController {
         this.applicationIconService = applicationIconService;
     }
 
-    @ResponseBody
-    @GetMapping("/start")
+    @GetMapping("/{id}/start")
     public void startApplication(@PathVariable String id, @RequestParam(name = "debug", defaultValue = "false", required = false) boolean debug) {
         wrappedApplicationService.findById(id).ifPresent(wrappedApplication -> {
             applicationProcessService.startApplication(applicationProcessService.getOrCreateApplicationProcess(wrappedApplication), debug);
         });
     }
 
-    @ResponseBody
-    @GetMapping("/stop")
+    @GetMapping("/{id}/stop")
     public void stopApplication(@PathVariable String id) {
         applicationProcessService.getApplicationProcess(id).ifPresent(applicationProcess -> {
             applicationProcessService.stopApplication(applicationProcess, false);
         });
     }
 
-    @ResponseBody
-    @GetMapping("/restart")
+    @GetMapping("/{id}/restart")
     public void restartApplication(@PathVariable String id) {
         applicationProcessService.getApplicationProcess(id).ifPresent(applicationProcess -> {
             applicationProcessService.stopApplication(applicationProcess, true);
         });
     }
 
-    @ResponseBody
-    @PostMapping("/sendCommand")
+    @PostMapping("/{id}/sendCommand")
     public void startApplication(@PathVariable String id, @RequestBody String command) {
         applicationProcessService.getApplicationProcess(id).ifPresent(applicationProcess -> {
             applicationProcessService.sendCommandToApplication(applicationProcess, command);
         });
     }
 
-    @ResponseBody
-    @GetMapping("/icon")
+    @GetMapping("/{id}/icon")
     public void getIcon(HttpServletResponse response, @PathVariable String id) throws IOException {
         Optional<WrappedApplication> oWrappedApplication = wrappedApplicationService.findById(id);
         if (oWrappedApplication.isPresent()) {
@@ -75,8 +70,7 @@ public class WrappedApplicationController {
         }
     }
 
-    @ResponseBody
-    @PostMapping(value = "/icon", consumes = {"image/svg+xml", "image/png", "image/jpeg"})
+    @PostMapping(value = "/{id}/icon", consumes = {"image/svg+xml", "image/png", "image/jpeg"})
     public void storeIcon(HttpServletResponse response, HttpServletRequest httpServletRequest, @PathVariable String id, @RequestBody byte[] image) throws IOException {
         Optional<WrappedApplication> oWrappedApplication = wrappedApplicationService.findById(id);
         if (oWrappedApplication.isPresent()) {
