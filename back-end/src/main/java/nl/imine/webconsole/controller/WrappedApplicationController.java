@@ -1,5 +1,6 @@
 package nl.imine.webconsole.controller;
 
+import nl.imine.webconsole.dto.NewApplicationDto;
 import nl.imine.webconsole.model.WrappedApplication;
 import nl.imine.webconsole.service.ApplicationIconService;
 import nl.imine.webconsole.service.ApplicationProcessService;
@@ -25,11 +26,21 @@ public class WrappedApplicationController {
         this.applicationIconService = applicationIconService;
     }
 
+    @PostMapping
+    public void createWrappedApplication(@RequestBody NewApplicationDto newApplication) {
+        wrappedApplicationService.createApplication(newApplication);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteWrappedApplication(@PathVariable String applicationId) {
+        wrappedApplicationService.deleteApplication(applicationId);
+    }
+
     @GetMapping("/{id}/start")
     public void startApplication(@PathVariable String id, @RequestParam(name = "debug", defaultValue = "false", required = false) boolean debug) {
-        wrappedApplicationService.findById(id).ifPresent(wrappedApplication -> {
-            applicationProcessService.startApplication(applicationProcessService.getOrCreateApplicationProcess(wrappedApplication), debug);
-        });
+        wrappedApplicationService.findById(id).ifPresent(wrappedApplication ->
+                applicationProcessService.startApplication(applicationProcessService.getOrCreateApplicationProcess(wrappedApplication), debug)
+        );
     }
 
     @GetMapping("/{id}/stop")
