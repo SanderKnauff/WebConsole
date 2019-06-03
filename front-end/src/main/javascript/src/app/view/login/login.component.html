@@ -1,11 +1,13 @@
-<form id="login">
-  <div class="inputContainer">
-    <img class="inputImage" src="/assets/img/icon_user_transparant.svg"/>
-    <input class="input" name="username" title="Username" [(ngModel)]="credentials.username"/>
-  </div>
-  <div class="inputContainer">
-    <img class="inputImage" src="/assets/img/icon_password_transparant.svg"/>
-    <input class="input" name="password" title="Password" type="password" [(ngModel)]="credentials.password"/>
-  </div>
-  <img id="loginButton" (click)="login()" src="/assets/img/icon_login_transparant.svg">
+<form #form="ngForm" (ngSubmit)="login(form.value)" id="login">
+  <label>
+    <img src="/assets/img/icon_user_transparent.svg" alt=""/>
+    <input class="input" name="username" title="Username" ngModel/>
+  </label>
+  <label>
+    <img src="/assets/img/icon_password_transparent.svg" alt=""/>
+    <input class="input" name="password" title="Password" type="password" ngModel/>
+  </label>
+  <button type="submit">
+    <img id="loginButton" src="/assets/img/icon_login_transparent.svg" alt="">
+  </button>
 </form>

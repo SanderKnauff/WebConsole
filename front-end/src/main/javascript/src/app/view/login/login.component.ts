@@ -9,13 +9,11 @@ import {LoginCredentials} from "../../model/login-credentials";
 })
 export class LoginComponent {
 
-  private credentials: LoginCredentials = new LoginCredentials(null, null);
-
   constructor(private loginService: LoginService) {
   }
 
-  login() {
-    this.loginService.login(this.credentials);
+  login(credentials: any) {
+    this.loginService.login(new LoginCredentials(credentials.username, credentials.password));
   }
 
 }

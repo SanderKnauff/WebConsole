@@ -6,3 +6,50 @@ body {
   background: rgb(7, 54, 66);
 }
 
+input {
+  margin: 0.5em;
+  padding: 0.5em;
+
+  border: none;
+  background: rgba(0, 0, 0, 0.21);
+  outline: none;
+
+  color: rgb(0, 250, 0);
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 1.5em;
+}
+
+button {
+  border: none;
+  background: none;
+
+  :active {
+    padding: 0;
+  }
+
+  :focus {
+    border: none;
+  }
+
+  > img {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border: rgba(255, 255, 255, 0) 2px solid;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.8) no-repeat center;
+  }
+
+  > img:hover {
+    border: rgba(255, 255, 255, 0.50) 2px solid;
+    background: rgba(0, 0, 0, 1) no-repeat center;
+  }
+}
+
+label {
+  display: flex;
+
+  > img {
+    position: absolute;
+    transform: translate(-4em)
+  }
+}

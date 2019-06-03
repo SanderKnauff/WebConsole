@@ -22,6 +22,7 @@ import {DashboardService} from "./service/dashboard/dashboard.service";
 import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import { SetupComponent } from './view/setup/setup.component';
 import {SetupService} from "./service/setup/setup.service";
+import { CreateApplicationComponent } from './view/create-application/create-application.component';
 
 const stompConfig: StompConfig = {
   url: `ws://${window.location.host}/socket`,
@@ -44,7 +45,8 @@ const stompConfig: StompConfig = {
     ApplicationNavigationComponent,
     ApplicationNavigationButtonComponent,
     ApplicationConsoleComponent,
-    SetupComponent
+    SetupComponent,
+    CreateApplicationComponent
   ],
   imports: [
     BrowserModule,
