@@ -23,6 +23,7 @@ import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import { SetupComponent } from './view/setup/setup.component';
 import {SetupService} from "./service/setup/setup.service";
 import { CreateApplicationComponent } from './view/create-application/create-application.component';
+import {CreateApplicationTileComponent} from "./view/dashboard/application-tile/create-application-tile.component";
 
 const stompConfig: StompConfig = {
   url: `ws://${window.location.host}/socket`,
@@ -41,6 +42,7 @@ const stompConfig: StompConfig = {
     EscapeHtmlPipe,
     LoginComponent,
     ApplicationTileComponent,
+    CreateApplicationTileComponent,
     ApplicationComponent,
     ApplicationNavigationComponent,
     ApplicationNavigationButtonComponent,
