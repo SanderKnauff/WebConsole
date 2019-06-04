@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Application} from "../../model/application";
 import {DashboardService} from "../../service/dashboard/dashboard.service";
-import {Observable} from "rxjs/index";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-dashboard',

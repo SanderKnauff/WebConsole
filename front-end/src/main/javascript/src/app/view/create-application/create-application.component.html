@@ -1,24 +1,32 @@
-<form>
+<form #form="ngForm" (ngSubmit)="createApplication(form.value)">
 
   <div>
     <label for="applicationName">Name</label>
-    <input id="applicationName"/>
+    <input name="applicationName" id="applicationName" ngModel/>
   </div>
 
   <div>
-    <label for="workingDirectory"></label>
-    <input id="workingDirectory"/>
+    <label for="workingDirectory">Working Directory</label>
+    <input name="workingDirectory" id="workingDirectory" ngModel/>
   </div>
 
   <div>
-    <label for="workingDirectory"></label>
-    <input id="command"/>
+    <label for="command">Command</label>
+    <input name="command" id="command" ngModel/>
   </div>
 
   <div>
-    <label for="workingDirectory"></label>
-    <input id="debugCommand"/>
+    <label for="debugCommand">Debug Command</label>
+    <input name="debugCommand" id="debugCommand" ngModel/>
   </div>
 
-  <button type="submit">Create</button>
+  <div class="confirmationButtons">
+    <button type="submit" [disabled]="blocked">
+      <img id="createButton" src="/assets/img/icon_check.svg" alt="">
+    </button>
+
+    <button type="button" [disabled]="blocked" (click)="navigateToDashboard()">
+      <img id="leaveButton" src="/assets/img/icon_x.svg" alt="">
+    </button>
+  </div>
 </form>
